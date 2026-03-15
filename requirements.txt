@@ -1,0 +1,11 @@
+torch
+torchvision
+facenet-pytorch
+onnxruntime
+lpips
+opencv-python
+Pillow
+numpy
+scipy
+tqdm
+scikit-image
