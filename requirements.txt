@@ -1,0 +1,13 @@
+# DeepShield v2 — Dependencies
+# Install:  pip install -r requirements.txt
+
+torch
+torchvision
+facenet-pytorch
+lpips
+opencv-python
+Pillow
+numpy
+scipy
+tqdm
+scikit-image

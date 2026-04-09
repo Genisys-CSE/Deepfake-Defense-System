@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepShield | Mission Control</title>
+    <meta name="description" content="DeepShield mission interface for deepfake prevention and forensic detection.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-shell">
+        <header class="topbar">
+            <button class="brand brand-button" id="brand-home" type="button" aria-label="Back to mission home">
+                <span class="brand-core">Deep</span><span class="brand-accent">Shield</span>
+            </button>
+            <nav class="top-nav" aria-label="Primary">
+                <button class="nav-link" type="button" data-scroll-target="introduction">Introduction</button>
+                <a class="nav-link nav-link-anchor" href="/about">About Us</a>
+            </nav>
+        </header>
+
+        <main>
+            <section class="screen active" data-screen="landing" id="screen-landing">
+                <section class="hero">
+                    <p class="hero-kicker">AI Deepfake Prevention & Detection</p>
+                    <h1 class="hero-title">Choose Your Mission</h1>
+                    <p class="hero-subtitle">Select a pathway to begin your deepfake defense operation.</p>
+                    <button id="start-system-btn" class="primary-cta" type="button">Start System</button>
+                </section>
+
+                <section class="mission-grid" id="mission-grid">
+                    <article class="mission-card red">
+                        <div class="mission-icon">R</div>
+                        <h2>Red Team</h2>
+                        <p class="mission-tag">Prevention & Protection</p>
+                        <p class="mission-copy">
+                            Protect source media with adversarial shielding, then run a controlled attack simulation
+                            to verify resistance against identity extraction.
+                        </p>
+                        <button class="mission-btn red" type="button" data-open-screen="red">Enter Red Team</button>
+                    </article>
+
+                    <article class="mission-card blue">
+                        <div class="mission-icon">B</div>
+                        <h2>Blue Team</h2>
+                        <p class="mission-tag">Detection & Analysis</p>
+                        <p class="mission-copy">
+                            Scan suspicious media with frequency-domain forensic analysis and inspect explainable
+                            indicators behind the final verdict.
+                        </p>
+                        <button class="mission-btn blue" type="button" data-open-screen="blue">Enter Blue Team</button>
+                    </article>
+                </section>
+
+                <section class="info-panels">
+                    <article class="info-card" id="introduction">
+                        <h3>Introduction</h3>
+                        <p>
+                            DeepShield is a practical AI security system designed to defend media from deepfake abuse
+                            and detect synthetic manipulation with explainable forensic signals.
+                        </p>
+                    </article>
+                    <article class="info-card" id="about">
+                        <h3>About Us</h3>
+                        <p>
+                            Open the DeepShield vision page for goals, project roadmap, and the full README in one
+                            clean place.
+                        </p>
+                        <a class="about-link-btn" href="/about">Open Vision Page</a>
+                    </article>
+                </section>
+            </section>
+
+            <section class="screen" data-screen="red" id="screen-red">
+                <div class="workspace-head red">
+                    <div>
+                        <p class="workspace-label">Red Team</p>
+                        <h2>Prevention & Protection Mission</h2>
+                        <p>Secure source media before synthetic manipulation attempts.</p>
+                    </div>
+                    <button class="back-btn" type="button" data-open-screen="landing">Back to Mission</button>
+                </div>
+
+                <div class="tool-switch">
+                    <button class="tool-btn red active" type="button" data-red-tool="protect">Protection</button>
+                    <button class="tool-btn red" type="button" data-red-tool="swap">Attack Simulation</button>
+                </div>
+
+                <section class="tool-view active" data-red-view="protect">
+                    <div class="panel">
+                        <h3>Adversarial Protection</h3>
+                        <p class="panel-sub">
+                            Upload a face image to apply DeepShield adversarial protection with quality and identity
+                            disruption metrics.
+                        </p>
+                        <div class="upload-zone" id="protect-upload" tabindex="0" role="button" aria-label="Upload image for protection">
+                            <input type="file" id="protect-file" accept="image/*" hidden>
+                            <div class="upload-placeholder" id="protect-placeholder">
+                                <p class="upload-main">Drop image here</p>
+                                <p class="upload-sub">or click to browse (JPG, PNG)</p>
+                            </div>
+                            <img id="protect-preview" class="upload-preview" alt="Protection preview">
+                        </div>
+                        <button class="action-btn red" id="protect-btn" type="button" disabled>
+                            <span class="btn-text">Apply Protection</span>
+                            <span class="btn-loading">Processing...</span>
+                        </button>
+                        <div class="task-progress" id="protect-progress-wrap" hidden>
+                            <div class="task-progress-head">
+                                <span id="protect-progress-label">Initializing...</span>
+                                <strong id="protect-progress-value">0%</strong>
+                            </div>
+                            <div class="task-progress-track">
+                                <div class="task-progress-fill red" id="protect-progress-fill"></div>
+                            </div>
+                        </div>
+                        <p class="inline-error" id="protect-error" aria-live="polite"></p>
+                    </div>
+
+                    <section class="results-block" id="protect-results" hidden>
+                        <h4>Protection Results</h4>
+                        <div class="comparison-grid">
+                            <article class="compare-card">
+                                <p>Original</p>
+                                <img id="result-original" alt="Original image">
+                            </article>
+                            <article class="compare-card">
+                                <p>Protected</p>
+                                <img id="result-protected" alt="Protected image">
+                            </article>
+                        </div>
+                        <div class="metric-grid">
+                            <article class="metric-card">
+                                <h5>Visual Quality</h5>
+                                <div class="metric-row">
+                                    <span>PSNR</span>
+                                    <div class="bar-wrap"><div class="bar good" id="bar-psnr"></div></div>
+                                    <strong id="val-psnr">--</strong>
+                                </div>
+                                <div class="metric-row">
+                                    <span>SSIM</span>
+                                    <div class="bar-wrap"><div class="bar good" id="bar-ssim"></div></div>
+                                    <strong id="val-ssim">--</strong>
+                                </div>
+                            </article>
+                            <article class="metric-card">
+                                <h5>Identity Disruption</h5>
+                                <div class="metric-row">
+                                    <span>ArcFace</span>
+                                    <div class="bar-wrap"><div class="bar danger" id="bar-arcface"></div></div>
+                                    <strong id="val-arcface">--</strong>
+                                </div>
+                                <div class="metric-row">
+                                    <span>FaceNet</span>
+                                    <div class="bar-wrap"><div class="bar danger" id="bar-facenet"></div></div>
+                                    <strong id="val-facenet">--</strong>
+                                </div>
+                            </article>
+                        </div>
+                        <p class="elapsed" id="protect-elapsed"></p>
+                    </section>
+                </section>
+
+                <section class="tool-view" data-red-view="swap">
+                    <div class="panel">
+                        <h3>Comparative Attack Simulation</h3>
+                        <p class="panel-sub">
+                            Run controlled swaps with clean and protected source media to compare identity transfer.
+                        </p>
+                        <div class="triple-upload">
+                            <div class="small-upload">
+                                <input type="file" id="swap-orig-file" accept="image/*" hidden>
+                                <label for="swap-orig-file">Original Source</label>
+                                <div class="upload-zone compact" id="swap-orig-upload" tabindex="0" role="button" aria-label="Upload original source image">
+                                    <div class="upload-placeholder" id="swap-orig-placeholder">
+                                        <p>Upload clean source</p>
+                                    </div>
+                                    <img id="swap-orig-preview" class="upload-preview" alt="Original source preview">
+                                </div>
+                            </div>
+                            <div class="small-upload">
+                                <input type="file" id="swap-prot-file" accept="image/*" hidden>
+                                <label for="swap-prot-file">Protected Source</label>
+                                <div class="upload-zone compact" id="swap-prot-upload" tabindex="0" role="button" aria-label="Upload protected source image">
+                                    <div class="upload-placeholder" id="swap-prot-placeholder">
+                                        <p>Upload protected source</p>
+                                    </div>
+                                    <img id="swap-prot-preview" class="upload-preview" alt="Protected source preview">
+                                </div>
+                            </div>
+                            <div class="small-upload">
+                                <input type="file" id="swap-target-file" accept="image/*" hidden>
+                                <label for="swap-target-file">Target</label>
+                                <div class="upload-zone compact" id="swap-target-upload" tabindex="0" role="button" aria-label="Upload target image">
+                                    <div class="upload-placeholder" id="swap-target-placeholder">
+                                        <p>Upload target image</p>
+                                    </div>
+                                    <img id="swap-target-preview" class="upload-preview" alt="Target preview">
+                                </div>
+                            </div>
+                        </div>
+                        <button class="action-btn red" id="swap-btn" type="button" disabled>
+                            <span class="btn-text">Run Comparative Face Swap</span>
+                            <span class="btn-loading">Simulating...</span>
+                        </button>
+                        <div class="task-progress" id="swap-progress-wrap" hidden>
+                            <div class="task-progress-head">
+                                <span id="swap-progress-label">Preparing simulation...</span>
+                                <strong id="swap-progress-value">0%</strong>
+                            </div>
+                            <div class="task-progress-track">
+                                <div class="task-progress-fill red" id="swap-progress-fill"></div>
+                            </div>
+                        </div>
+                        <p class="inline-error" id="swap-error" aria-live="polite"></p>
+                    </div>
+
+                    <section class="results-block" id="swap-results" hidden>
+                        <h4>Swap Results</h4>
+                        <div class="swap-results-grid">
+                            <article class="swap-card">
+                                <header id="swap-clean-header">
+                                    <span class="badge high">HIGH QUALITY</span>
+                                </header>
+                                <p class="swap-title">From Original (No Protection)</p>
+                                <img id="swap-clean-img" alt="Clean swap result">
+                                <div class="meter-row">
+                                    <span>Identity Match</span>
+                                    <div class="bar-wrap"><div class="bar good" id="conf-clean"></div></div>
+                                    <strong id="conf-clean-val">--</strong>
+                                </div>
+                            </article>
+                            <article class="swap-card">
+                                <header id="swap-prot-header">
+                                    <span class="badge degraded">DEGRADED</span>
+                                </header>
+                                <p class="swap-title">From Protected (DeepShield Active)</p>
+                                <img id="swap-prot-img" alt="Protected swap result">
+                                <div class="meter-row">
+                                    <span>Identity Match</span>
+                                    <div class="bar-wrap"><div class="bar danger" id="conf-prot"></div></div>
+                                    <strong id="conf-prot-val">--</strong>
+                                </div>
+                            </article>
+                        </div>
+                        <p class="elapsed" id="swap-elapsed"></p>
+                    </section>
+                </section>
+            </section>
+
+            <section class="screen" data-screen="blue" id="screen-blue">
+                <div class="workspace-head blue">
+                    <div>
+                        <p class="workspace-label">Blue Team</p>
+                        <h2>Detection & Analysis Mission</h2>
+                        <p>Scan media for synthetic manipulation with explainable forensic indicators.</p>
+                    </div>
+                    <button class="back-btn" type="button" data-open-screen="landing">Back to Mission</button>
+                </div>
+
+                <div class="blue-layout">
+                    <div class="blue-main">
+                        <div class="panel">
+                            <h3>Deep Scan</h3>
+                            <p class="panel-sub">Upload media and run forensic detection pipeline analysis.</p>
+                            <div class="upload-zone" id="detect-upload" tabindex="0" role="button" aria-label="Upload image for deepfake detection">
+                                <input type="file" id="detect-file" accept="image/*" hidden>
+                                <div class="upload-placeholder" id="detect-placeholder">
+                                    <p class="upload-main">Drop media to scan</p>
+                                    <p class="upload-sub">or click to browse (JPG, PNG)</p>
+                                </div>
+                                <img id="detect-preview" class="upload-preview" alt="Detection preview">
+                            </div>
+                            <button class="action-btn blue" id="detect-btn" type="button" disabled>
+                                <span class="btn-text">Run Detection</span>
+                                <span class="btn-loading">Analyzing...</span>
+                            </button>
+                            <div class="task-progress" id="detect-progress-wrap" hidden>
+                                <div class="task-progress-head">
+                                    <span id="detect-progress-label">Preparing forensic scan...</span>
+                                    <strong id="detect-progress-value">0%</strong>
+                                </div>
+                                <div class="task-progress-track">
+                                    <div class="task-progress-fill blue" id="detect-progress-fill"></div>
+                                </div>
+                            </div>
+                            <p class="inline-error" id="detect-error" aria-live="polite"></p>
+                        </div>
+
+                        <section class="results-block" id="detect-results" hidden>
+                            <h4>Detection Results</h4>
+                            <div class="verdict-card" id="verdict-card">
+                                <p class="verdict-label" id="verdict-label">UNKNOWN</p>
+                                <p class="verdict-confidence" id="verdict-confidence">Confidence: --</p>
+                            </div>
+                            <article class="reason-card">
+                                <h5>Forensic Reasoning</h5>
+                                <p id="detect-summary">Run a scan to see detailed reasoning.</p>
+                                <ul id="detect-reasons"></ul>
+                            </article>
+                            <div class="detect-grid">
+                                <article class="spectrum-card">
+                                    <h5>FFT Spectrum</h5>
+                                    <img id="spectrum-img" alt="Frequency spectrum">
+                                </article>
+                                <article class="analysis-card">
+                                    <h5>Signal Breakdown</h5>
+                                    <div class="analysis-row">
+                                        <span>Frequency</span>
+                                        <div class="bar-wrap"><div class="bar danger" id="abar-frequency"></div></div>
+                                        <strong id="aval-frequency">--</strong>
+                                    </div>
+                                    <div class="analysis-row">
+                                        <span>Noise</span>
+                                        <div class="bar-wrap"><div class="bar danger" id="abar-noise"></div></div>
+                                        <strong id="aval-noise">--</strong>
+                                    </div>
+                                    <div class="analysis-row">
+                                        <span>Boundary</span>
+                                        <div class="bar-wrap"><div class="bar danger" id="abar-boundary"></div></div>
+                                        <strong id="aval-boundary">--</strong>
+                                    </div>
+                                    <div class="analysis-row">
+                                        <span>Sharpness</span>
+                                        <div class="bar-wrap"><div class="bar danger" id="abar-sharpness"></div></div>
+                                        <strong id="aval-sharpness">--</strong>
+                                    </div>
+                                    <div class="analysis-row">
+                                        <span>Compression</span>
+                                        <div class="bar-wrap"><div class="bar danger" id="abar-compression"></div></div>
+                                        <strong id="aval-compression">--</strong>
+                                    </div>
+                                    <div class="analysis-row">
+                                        <span>Color Consistency</span>
+                                        <div class="bar-wrap"><div class="bar danger" id="abar-color"></div></div>
+                                        <strong id="aval-color">--</strong>
+                                    </div>
+                                </article>
+                            </div>
+                            <p class="elapsed" id="detect-elapsed"></p>
+                        </section>
+                    </div>
+
+                    <aside class="pipeline-rail" id="pipeline-rail">
+                        <header>
+                            <h4>Detection Pipeline</h4>
+                            <div class="pipeline-meta">
+                                <span id="pipe-progress-count">0 / 7 stages</span>
+                                <span id="pipe-timer">00:00</span>
+                            </div>
+                            <div class="pipe-progress-bar">
+                                <div id="pipe-progress-fill"></div>
+                            </div>
+                        </header>
+                        <ol id="detect-pipeline">
+                            <li class="pipeline-stage pending" data-stage-index="0">
+                                <span class="stage-name">Input normalization</span>
+                                <span class="stage-status">PENDING</span>
+                            </li>
+                            <li class="pipeline-stage pending" data-stage-index="1">
+                                <span class="stage-name">FFT spectrum extraction</span>
+                                <span class="stage-status">PENDING</span>
+                            </li>
+                            <li class="pipeline-stage pending" data-stage-index="2">
+                                <span class="stage-name">Frequency anomaly scoring</span>
+                                <span class="stage-status">PENDING</span>
+                            </li>
+                            <li class="pipeline-stage pending" data-stage-index="3">
+                                <span class="stage-name">Noise consistency scoring</span>
+                                <span class="stage-status">PENDING</span>
+                            </li>
+                            <li class="pipeline-stage pending" data-stage-index="4">
+                                <span class="stage-name">Boundary artifact scoring</span>
+                                <span class="stage-status">PENDING</span>
+                            </li>
+                            <li class="pipeline-stage pending" data-stage-index="5">
+                                <span class="stage-name">Sharpness mismatch scoring</span>
+                                <span class="stage-status">PENDING</span>
+                            </li>
+                            <li class="pipeline-stage pending" data-stage-index="6">
+                                <span class="stage-name">Verdict assembly</span>
+                                <span class="stage-status">PENDING</span>
+                            </li>
+                        </ol>
+                    </aside>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <div class="footer-brand">
+                <span class="brand-core">Deep</span><span class="brand-accent">Shield</span>
+            </div>
+            <nav class="footer-links">
+                <a href="#introduction">How to Use</a>
+                <a href="/about">About & Vision</a>
+            </nav>
+            <p>&copy; 2026 DeepShield. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepShield | About & Vision</title>
+    <meta name="description" content="DeepShield project vision and technical README.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-shell about-shell">
+        <header class="topbar">
+            <a class="brand brand-button nav-link-anchor" href="/" aria-label="Back to mission home">
+                <span class="brand-core">Deep</span><span class="brand-accent">Shield</span>
+            </a>
+            <nav class="top-nav">
+                <a class="nav-link nav-link-anchor" href="/">Mission Control</a>
+            </nav>
+        </header>
+
+        <main class="about-main">
+            <section class="about-hero">
+                <p class="hero-kicker">DeepShield Project</p>
+                <h1 class="hero-title">Vision & System Notes</h1>
+                <p class="hero-subtitle">Mission intent, architecture direction, and the current working README.</p>
+            </section>
+
+            <section class="about-grid">
+                <article class="about-card">
+                    <h2>Our Vision</h2>
+                    <ul>
+                        {% for point in vision %}
+                        <li>{{ point }}</li>
+                        {% endfor %}
+                    </ul>
+                </article>
+
+                <article class="about-card">
+                    <h2>Project README</h2>
+                    <div class="readme-render">
+                        {{ readme_html|safe }}
+                    </div>
+                </article>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <div class="footer-brand">
+                <span class="brand-core">Deep</span><span class="brand-accent">Shield</span>
+            </div>
+            <p>&copy; 2026 DeepShield. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
